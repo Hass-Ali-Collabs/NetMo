@@ -1,3 +1,7 @@
+#requirments
+#pip install abstract-python-ip-geolocation
+
+
 # Get a Geolocation from an IP Address Abstract's IP Geolocation API and Python
 from python_ip_geolocation import AbstractIpGeolocation
 
