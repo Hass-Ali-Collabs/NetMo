@@ -1,37 +1,55 @@
 
-# Import libraries
-import socket
-import netifaces
-import psutil
-from PyQt5.QtCore import*  
-
-
 import pyshark
 
-def MAC_sorting(MAC):   #sorts packets acording to mac address 
-	
+
+class Packet:
 
 
 
+	def __init__( self, src_ip,des_ip,src_city,src_country,des_city,des_coutry,src_port,des_port,protocol, dns_name):
+
+
+		self.src_ip=src_ip
+		self.des_ip=des_ip
+		self.src_city=src_city
+		self.src_country=src_country
+		self.des_city=des_city
+		self.des_coutry=des_coutry
+		self.src_port=src_port
+		self.des_port=des_port
+		self.protocol=protocol
+		self.dns_name=dns_name
 
 
 
-
-#cap = pyshark.FileCapture('test.pcapng')
-cap = FileCapture('test.pcapng', use_json = True, custom_parameters = {'-N': 'm'})
-print(cap[0])
+C = pyshark.FileCapture('test.pcapng')
+#self, src_ip,des_ip,src_city,src_country,des_city,des_coutry,port,protocol, dns_name
 
 
 
+l=[]
 
 
 
+def print_conversation_header(pkt):
+    try:
+        protocol =  pkt.transport_layer
+        src_addr = pkt.ip.src
+        src_port = pkt[pkt.transport_layer].srcport
+        dst_addr = pkt.ip.dst
+        dst_port = pkt[pkt.transport_layer].dstport
+        p = Packet(src_addr,dst_addr,"x","x","x","x",src_port,dst_port,pkt.transport_layer,"")
+        print(src_addr )
+        l.append(p)
+    except AttributeError as e:
+        #ignore packets that aren't TCP/UDP or IPv4
+        pass
+
+C.apply_on_packets(print_conversation_header, timeout=100)
 
 
-# for pkt in cap:
-# 	print (pkt)
 
-
+print(len(l))
 
 
 
