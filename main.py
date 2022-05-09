@@ -22,7 +22,7 @@ class Packet:
 
 
 
-C = pyshark.FileCapture('test.pcapng')
+C = pyshark.FileCapture('C:/Users/HP/Desktop/test.pcapng')
 #self, src_ip,des_ip,src_city,src_country,des_city,des_coutry,port,protocol, dns_name
 
 
@@ -31,7 +31,7 @@ l=[]
 
 
 
-def print_conversation_header(pkt):
+def creat(pkt):
     try:
         protocol =  pkt.transport_layer
         src_addr = pkt.ip.src
@@ -45,11 +45,39 @@ def print_conversation_header(pkt):
         #ignore packets that aren't TCP/UDP or IPv4
         pass
 
-C.apply_on_packets(print_conversation_header, timeout=100)
+
+count=0
+
+def add_DNS(pkt):
+	try:
+		if pkt.dns.qry_name:
+			l[count].dns_name=pkt.dms.qry_name
+			count+=1
+	except AttributeError as e:
+		count+=1
+        #ignore packets that aren't DNS Request
+		pass
+	try:
+		if pkt.dns.resp_name:
+			l[count].dns_name=pkt.dms.qry_name
+			count+=1
+	except AttributeError as e:
+		count+=1
+        #ignore packets that aren't DNS Response
+		pass
 
 
 
-print(len(l))
+
+
+C.apply_on_packets(creat, timeout=100)
+C.apply_on_packets(add_DNS, timeout=100)
+
+for x in range(0,len(l)):
+	print(l[x].dns_name)
+
+
+
 
 
 
