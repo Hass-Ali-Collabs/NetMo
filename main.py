@@ -10,7 +10,7 @@ from Layout import Ui_MainWindow
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-	l=bl.infile("C:/Users/HP/Desktop/test.pcapng")
+	l=bl.infile("C:/Users/MSI-PC/Desktop/NetMo/test.pcapng")
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
