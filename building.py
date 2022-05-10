@@ -1,12 +1,14 @@
 
 import pyshark
+import socket
+
 
 
 class Packet:
 
 
 
-	def __init__( self, src_ip,des_ip,src_city,src_country,des_city,des_coutry,src_port,des_port,protocol, dns_name,prity):
+	def __init__( self, src_ip,des_ip,src_city,src_country,des_city,des_country,src_port,des_port,protocol, dns_name,prity):
 
 
 		self.src_ip=src_ip
@@ -14,7 +16,7 @@ class Packet:
 		self.src_city=src_city
 		self.src_country=src_country
 		self.des_city=des_city
-		self.des_coutry=des_coutry
+		self.des_country=des_country
 		self.src_port=src_port
 		self.des_port=des_port
 		self.protocol=protocol
@@ -38,7 +40,7 @@ def infile(s):
 	
 
 	C = pyshark.FileCapture(s)#if error /U008.. put path between "" and r befor it
-	#self, src_ip,des_ip,src_city,src_country,des_city,des_coutry,port,protocol, dns_name
+	#self, src_ip,des_ip,src_city,src_country,des_city,des_country,port,protocol, dns_name
 
 
 
@@ -66,34 +68,56 @@ def infile(s):
 			pass
 
 	
-
-	def add_DNS(pkt):
-		global IN
-		# #if(IN==len(l)):
-		# 	return none
+	def url(ls):
+		for x in range(0,len(ls)):
+			if ls[x].des_ip[0:3]=="192" or ls[x].des_ip[0:3]=="172" or ls[x].des_ip[0:3]=="10." :
+				pass
+			else:
+				try:
+					ls[x].dns_name=socket.gethostbyaddr(ls[x].des_ip)[0]
+				except Exception as e:
+					pass
+			
 		
-		try:
-			if pkt.dns.qry_name:
-				l[IN].dns_name=pkt.dms.qry_name
-				print(pkt.dms.qry_name)
-		except AttributeError as e:
-			l[IN].dns_name=""
-	        #ignore packets that aren't DNS Request
-			pass
-		try:
-			if pkt.dns.resp_name:
-				l[IN].dns_name=pkt.dms.qry_name
-				print(pkt.dms.resp_name)
 
-		except AttributeError as e:
-			l[IN].dns_name=""
-	        #ignore packets that aren't DNS Response
-			pass
-		IN +=1
+
+
+
+
+
+
+
+
+
+
+	# def add_DNS(pkt):
+	# 	global IN
+	# 	# #if(IN==len(l)):
+	# 	# 	return none
+		
+	# 	try:
+	# 		if pkt.dns.qry_name:
+	# 			l[IN].dns_name=pkt.dms.qry_name
+	# 			print(pkt.dms.qry_name)
+	# 	except AttributeError as e:
+	# 		l[IN].dns_name=""
+	#         #ignore packets that aren't DNS Request
+	# 		pass
+	# 	try:
+	# 		if pkt.dns.resp_name:
+	# 			l[IN].dns_name=pkt.dms.qry_name
+	# 			print(pkt.dms.resp_name)
+
+	# 	except AttributeError as e:
+	# 		l[IN].dns_name=""
+	#         #ignore packets that aren't DNS Response
+	# 		pass
+	# 	IN +=1
 		#print(IN) 
 
 	C.apply_on_packets(creat, timeout=100)
-	C.apply_on_packets(add_DNS, timeout=100)
+	#C.apply_on_packets(add_DNS, timeout=100)
+	url(l)
 
 
 

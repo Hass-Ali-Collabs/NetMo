@@ -10,13 +10,14 @@ from Layout import Ui_MainWindow
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-	l=bl.infile("C:/Users/HP/Desktop/test.pcapng")
+	
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.test(self.l)
 		self.combo()
-		self.fill(l)
+		# self.fill(self.l)
+	l=bl.infile("C:/Users/HP/Desktop/test.pcapng")
 
 
 
@@ -31,9 +32,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				comb_ls.append(x.src_ip)
 		# return comb_ls
 
-	def fill(self,ls):
-		for x in ls:
-			self.scrollArea.addItem(self.stringing(x))
+	# def fill(self,ls):
+	# 	for x in ls:
+	# 		self.scrollArea.addItem(self.stringing(x))
 	
 	def test(self,ls):
 		for x in range(0,len(ls)):
@@ -58,7 +59,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			if pkt.dns_name!="":
 				return "Sender IP: "+pkt.src_ip+" Riciver IP: "+pkt.des_ip+" Sender location: "+pkt.src_city+"-"+pkt.src_country+" Riciver location: "+pkt.des_city+"-"+pkt.des_country+" URL: "+pkt.dns_name
 			else:
-				return "Sender IP: "+pkt.src_ip+" Riciver IP: "+pkt.des_ip+" Sender location: "+pkt.src_city+"-"+pkt.src_country+" Riciver location: "+pkt.des_city+"-"+pkt.des_coutry
+				return "Sender IP: "+pkt.src_ip+" Riciver IP: "+pkt.des_ip+" Sender location: "+pkt.src_city+"-"+pkt.src_country+" Riciver location: "+pkt.des_city+"-"+pkt.des_country
 
 
 	def IP_sorting(self, ip):
