@@ -1,9 +1,13 @@
-exec(open("building.py").read())
+import building as bl
 
 
 
 
 
+
+
+
+print(len(bl.infile("C:/Users/HP/Desktop/test.pcapng")))
 
 
 
