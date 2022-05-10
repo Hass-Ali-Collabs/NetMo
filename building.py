@@ -20,6 +20,18 @@ class Packet:
 		self.protocol=protocol
 		self.dns_name=dns_name
 		self.prity=prity
+		self.long=""
+		self.lat=""
+
+	def __call__(self):
+		if self.src_ip!="":
+			if self.dns_name!="":
+				return "Sender IP: "+self.src_ip+" Riciver IP: "+self.des_ip+" Sender location: "+self.city+"-"+self.src_country+" URL: "+self.dns_name
+			else:
+				return "Sender IP: "+self.src_ip+" Riciver IP: "+self.des_ip+" Sender location: "+self.city+"-"+self.src_country
+
+
+
 IN=0
 
 def infile(s):
@@ -82,6 +94,10 @@ def infile(s):
 
 	C.apply_on_packets(creat, timeout=100)
 	C.apply_on_packets(add_DNS, timeout=100)
+
+
+
+
 
 	return l 
 
