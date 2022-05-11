@@ -40,15 +40,8 @@ def infile(s):
 	
 
 	C = pyshark.FileCapture(s)#if error /U008.. put path between "" and r befor it
-	#self, src_ip,des_ip,src_city,src_country,des_city,des_country,port,protocol, dns_name
-
-
 
 	l=[]
-
-	
-	
-
 
 	def creat(pkt):
 		try:
@@ -58,11 +51,11 @@ def infile(s):
 			src_port = pkt[pkt.transport_layer].srcport
 			dst_addr = pkt.ip.dst
 			dst_port = pkt[pkt.transport_layer].dstport
-			p = Packet(src_addr,dst_addr,"x","x","x","x",src_port,dst_port,pkt.transport_layer,"",pkt.pretty_print)
-			l.append(p)
+			if dst_addr[0:3]!="192" and dst_addr[0:3]!="172" and dst_addr[0:3]!="10." :
+				p = Packet(src_addr,dst_addr,"x","x","x","x",src_port,dst_port,pkt.transport_layer,"",pkt.pretty_print)
+				l.append(p)
 		except AttributeError as e:
 
-			l.append(Packet("","","x","x","x","x","","","","",""))
 
 	        #ignore packets that aren't TCP/UDP or IPv4
 			pass
