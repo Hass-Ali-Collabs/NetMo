@@ -1,6 +1,7 @@
-
+from python_ip_geolocation import AbstractIpGeolocation
 import pyshark
 import socket
+import time
 
 
 
@@ -34,7 +35,8 @@ class Packet:
 
 
 
-IN=0
+IP_GEOLOCATION_API_KEY =  "e8f7044192ae4f8a8d69eb3372297c48";# Get your API Key from https://app.abstractapi.com/api/ip-geolocation/documentation
+AbstractIpGeolocation.configure(IP_GEOLOCATION_API_KEY)
 
 def infile(s):
 	
@@ -61,15 +63,31 @@ def infile(s):
 			pass
 
 	
+
+
 	def url(ls):
 		for x in range(0,len(ls)):
-			if ls[x].des_ip[0:3]=="192" or ls[x].des_ip[0:3]=="172" or ls[x].des_ip[0:3]=="10." :
+			try:
+				ls[x].dns_name=socket.gethostbyaddr(ls[x].des_ip)[0]
+			except Exception as e:
 				pass
-			else:
-				try:
-					ls[x].dns_name=socket.gethostbyaddr(ls[x].des_ip)[0]
-				except Exception as e:
-					pass
+
+
+	def ips(pks):
+		comb_ls=[]
+		ls=[]
+		try:
+			for x in pks:
+				if x.des_ip not in comb_ls and x.src_ip!="":
+					time.sleep(0.3)
+					z=AbstractIpGeolocation.look_up(x.des_ip)
+					print([x.des_ip,z.city,z.country,z.longitude,z.latitude])
+					comb_ls.append(x.des_ip)
+					ls.append([x.des_ip,z.city,z.country,z.longitude,z.latitude])
+		except  Exception as e:
+			pass
+		return ls
+
 			
 		
 
@@ -110,6 +128,7 @@ def infile(s):
 
 	C.apply_on_packets(creat, timeout=100)
 	#C.apply_on_packets(add_DNS, timeout=100)
+	ips(l)
 	url(l)
 
 

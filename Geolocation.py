@@ -5,7 +5,7 @@
 # Get a Geolocation from an IP Address Abstract's IP Geolocation API and Python
 from python_ip_geolocation import AbstractIpGeolocation
 
-IP_GEOLOCATION_API_KEY =  "yyyyyy"; # Get your API Key from https://app.abstractapi.com/api/ip-geolocation/documentation
+IP_GEOLOCATION_API_KEY =  "e8f7044192ae4f8a8d69eb3372297c48"; # Get your API Key from https://app.abstractapi.com/api/ip-geolocation/documentation
 
 AbstractIpGeolocation.configure(IP_GEOLOCATION_API_KEY)
 #print(AbstractIpGeolocation.look_up("52.97.215.98"))#test one
@@ -66,7 +66,7 @@ continent=None, continent_code=None, continent_geoname_id=None, longitude=None,
 latitude=None, security=EmbeddedObject(is_vpn=False))
 '''
 
-print(AbstractIpGeolocation.look_up("35.174.127.31"))
+print(AbstractIpGeolocation.look_up("35.174.127.31").country)
 
 '''
 output
