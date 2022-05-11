@@ -73,13 +73,13 @@ def infile(s):
 				pass
 
 
-	def ips(pks):
+	def locations(pks):
 		comb_ls=[]
 		ls=[]
 		try:
 			for x in pks:
 				if x.des_ip not in comb_ls and x.src_ip!="":
-					time.sleep(0.3)
+					time.sleep(0.4)
 					z=AbstractIpGeolocation.look_up(x.des_ip)
 					print([x.des_ip,z.city,z.country,z.longitude,z.latitude])
 					comb_ls.append(x.des_ip)
@@ -88,47 +88,33 @@ def infile(s):
 			pass
 		return ls
 
-			
-		
 
 
+	def fillinglocs(pks,loc):
+		for i in loc:
+			for x in pks:
+				if i[0]==x.des_ip:
+					if(i[1]!=None):
+						x.des_city=i[1]
+					else:
+						x.des_city="X"
+					if(i[2]!=None):
+						x.des_country=i[2]
+					else:
+						x.des_country="X"
+					if(i[3]!=None):
+						x.long=i[3]
+					else:
+						x.long="X"
+					if(i[4]!=None):
+						x.lat=i[4]
+					else:
+						x.lat="X"
 
 
-
-
-
-
-
-
-
-	# def add_DNS(pkt):
-	# 	global IN
-	# 	# #if(IN==len(l)):
-	# 	# 	return none
-		
-	# 	try:
-	# 		if pkt.dns.qry_name:
-	# 			l[IN].dns_name=pkt.dms.qry_name
-	# 			print(pkt.dms.qry_name)
-	# 	except AttributeError as e:
-	# 		l[IN].dns_name=""
-	#         #ignore packets that aren't DNS Request
-	# 		pass
-	# 	try:
-	# 		if pkt.dns.resp_name:
-	# 			l[IN].dns_name=pkt.dms.qry_name
-	# 			print(pkt.dms.resp_name)
-
-	# 	except AttributeError as e:
-	# 		l[IN].dns_name=""
-	#         #ignore packets that aren't DNS Response
-	# 		pass
-	# 	IN +=1
-		#print(IN) 
 
 	C.apply_on_packets(creat, timeout=100)
-	#C.apply_on_packets(add_DNS, timeout=100)
-	ips(l)
+	fillinglocs(l,locations(l))
 	url(l)
 
 
