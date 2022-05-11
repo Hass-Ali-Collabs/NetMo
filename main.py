@@ -37,14 +37,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	# 		self.scrollArea.addItem(self.stringing(x))
 	
 	def test(self,ls):
-		for x in range(0,len(ls)):
+		print(self.printer(self.l))
+		# for x in range(0,len(ls)):
 
-			if ls[x].src_ip !="":
-				print(self.stringing(ls[x]))
-				print()
+		# 	if ls[x].src_ip !="":
+		# 		print(self.stringing(ls[x]))
+		# 		print()
 
 	def web_num(self):
 		return len(only_web(l))
+
+
 
 	def ip_num(self):
 		comb_ls=[]
@@ -53,13 +56,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				comb_ls.append(x.src_ip)
 		return len(comb_ls)
 
+
+
+
+
+
 	def stringing(self,pkt):
 
 		if pkt.src_ip!="":
 			if pkt.dns_name!="":
-				return "Sender IP: "+pkt.src_ip+" Riciver IP: "+pkt.des_ip+" Sender location: "+pkt.src_city+"-"+pkt.src_country+" Riciver location: "+pkt.des_city+"-"+pkt.des_country+" URL: "+pkt.dns_name
+				return "Sender IP: "+pkt.src_ip+" Riciver IP: "+pkt.des_ip+" Riciver location: "+pkt.des_city+"-"+pkt.des_country+" URL: "+pkt.dns_name
 			else:
-				return "Sender IP: "+pkt.src_ip+" Riciver IP: "+pkt.des_ip+" Sender location: "+pkt.src_city+"-"+pkt.src_country+" Riciver location: "+pkt.des_city+"-"+pkt.des_country
+				return "Sender IP: "+pkt.src_ip+" Riciver IP: "+pkt.des_ip+" Riciver location: "+pkt.des_city+"-"+pkt.des_country
+
+
+
 
 
 	def IP_sorting(self, ip):
@@ -71,6 +82,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			else:
 				pass
 		return ipl
+
+	def printer(self,pks):
+		s=""
+		for x in pks:
+			s+=self.stringing(x)+" \n \n"
+		return s
+
 	
 
 	def only_web(self, paks):

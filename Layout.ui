@@ -131,6 +131,15 @@ alternate-background-color: rgb(255, 255, 255);</string>
                   <height>514</height>
                  </rect>
                 </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QLabel" name="display">
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </widget>
              </item>

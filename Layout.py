@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import scrolllable
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -67,6 +68,11 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 716, 514))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.display = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.display.setObjectName("display")
+        self.horizontalLayout_7.addWidget(self.display)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout_2.addWidget(self.scrollArea)
         self.horizontalLayout_5.addLayout(self.verticalLayout_2)
@@ -148,6 +154,7 @@ class Ui_MainWindow(object):
         self.btn_import.setText(_translate("MainWindow", "Import Capture"))
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.btn_web_filter.setText(_translate("MainWindow", "Filer websites only"))
+        self.display.setText(_translate("MainWindow", "TextLabel"))
         self.label_3.setText(_translate("MainWindow", "        Number of captured Packets"))
         self.label_5.setText(_translate("MainWindow", "      Number of visited websites"))
         self.label_7.setText(_translate("MainWindow", "      Number of distinct IP"))
