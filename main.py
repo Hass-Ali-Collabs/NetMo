@@ -10,18 +10,34 @@ from Layout import Ui_MainWindow
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
+	s=r"C:\Users\HP\Desktop\test2.pcapng"
+
+	l=bl.infile(r""+s)
 
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.test(self.l)
+		self.ip_numb()
+		self.screanShow(self.l)
 		self.combo()
-		# self.fill(self.l)
-	l=bl.infile("C:/Users/HP/Desktop/test.pcapng")
+		self.paKnumb()
+		self.web_numb()
+		#self.btn_import.clicked.connect(self.importer)
+		#self.fill(self.l)
 
 
 
+	def importer(self):
+		path=QFileDialog.getOpenFileName(self,'Open a file','','All Files(*.*)')
+		#path=self.getfolderDir()
 
+
+		self.l=bl.infile(r""+path)
+		print(self.stringing(l))
+
+
+		
 
 
 	def combo(self):
@@ -44,17 +60,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# 		print(self.stringing(ls[x]))
 		# 		print()
 
-	def web_num(self):
-		return len(only_web(l))
+	def screanShow(self,ls):
+		self.display.setText(self.printer(ls))
+		
+
+	def web_numb(self):
+		self.web_num.setText(str(len(self.only_web(self.l))))
 
 
 
-	def ip_num(self):
+	def ip_numb(self):#combine with the function combo
 		comb_ls=[]
 		for x in self.l:
 			if x.src_ip not in comb_ls and x.src_ip!="":
 				comb_ls.append(x.src_ip)
-		return len(comb_ls)
+		self.ip_num.setText(str(len(comb_ls)))
+
+
+	def paKnumb(self):
+
+		self.pack_num.setText(str(len(self.l)))
 
 
 
@@ -65,9 +90,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		if pkt.src_ip!="":
 			if pkt.dns_name!="":
-				return "Sender IP: "+pkt.src_ip+" Riciver IP: "+pkt.des_ip+" Riciver location: "+pkt.des_city+"-"+pkt.des_country+" URL: "+pkt.dns_name
+				return "Sender IP: "+pkt.src_ip+"\nRiciver IP: "+pkt.des_ip+"\nRiciver location: "+pkt.des_city+"-"+pkt.des_country+"\nURL: "+pkt.dns_name
 			else:
-				return "Sender IP: "+pkt.src_ip+" Riciver IP: "+pkt.des_ip+" Riciver location: "+pkt.des_city+"-"+pkt.des_country
+				return "Sender IP: "+pkt.src_ip+"\nRiciver IP: "+pkt.des_ip+"\nRiciver location: "+pkt.des_city+"-"+pkt.des_country
 
 
 
@@ -76,7 +101,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def IP_sorting(self, ip):
 		global l
 		ipl=[]
-		for x in xrange(0,len(l)):
+		for x in range(0,len(l)):
 			if l[x].src_ip == ip:
 				ipl.append(l[x])
 			else:
@@ -86,15 +111,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def printer(self,pks):
 		s=""
 		for x in pks:
-			s+=self.stringing(x)+" \n \n"
+			s+=self.stringing(x)+" \n \n \n"
 		return s
 
 	
 
 	def only_web(self, paks):
-		webl
-		for x in xrange(0,len(paks)):
-			if paks.dns_name != "":
+		webl=[]
+		for x in range(0,len(paks)):
+			if paks[x].dns_name != "":
 			    webl.append(paks[x])
 	
 		return webl

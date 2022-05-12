@@ -7,7 +7,6 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import scrolllable
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -18,7 +17,7 @@ class Ui_MainWindow(object):
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.widget = QtWidgets.QWidget(self.centralwidget)
-        self.widget.setStyleSheet("background-color: rgb(53, 53, 53);")
+        self.widget.setStyleSheet("background-color: rgb(0, 85, 127);")
         self.widget.setObjectName("widget")
         self.gridLayout = QtWidgets.QGridLayout(self.widget)
         self.gridLayout.setObjectName("gridLayout")
@@ -35,13 +34,6 @@ class Ui_MainWindow(object):
 "")
         self.btn_import.setObjectName("btn_import")
         self.verticalLayout.addWidget(self.btn_import)
-        self.pushButton = QtWidgets.QPushButton(self.widget)
-        self.pushButton.setMinimumSize(QtCore.QSize(0, 40))
-        self.pushButton.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"font: 12pt \"MS Shell Dlg 2\";\n"
-"")
-        self.pushButton.setObjectName("pushButton")
-        self.verticalLayout.addWidget(self.pushButton)
         self.horizontalLayout.addLayout(self.verticalLayout)
         spacerItem = QtWidgets.QSpacerItem(438, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
@@ -66,11 +58,14 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 716, 514))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 716, 560))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.display = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.display.setStyleSheet("font: 14pt \"Times New Roman\";\n"
+"background-color: rgb(0, 85, 127);\n"
+"color: rgb(255, 255, 0);")
         self.display.setObjectName("display")
         self.horizontalLayout_7.addWidget(self.display)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -81,6 +76,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.label_2 = QtWidgets.QLabel(self.widget)
         self.label_2.setMinimumSize(QtCore.QSize(0, 70))
+        self.label_2.setStyleSheet("background-color: rgb(0, 85, 127);")
         self.label_2.setText("")
         self.label_2.setObjectName("label_2")
         self.verticalLayout_3.addWidget(self.label_2)
@@ -152,7 +148,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.btn_import.setText(_translate("MainWindow", "Import Capture"))
-        self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.btn_web_filter.setText(_translate("MainWindow", "Filer websites only"))
         self.display.setText(_translate("MainWindow", "TextLabel"))
         self.label_3.setText(_translate("MainWindow", "        Number of captured Packets"))
