@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import*
 from PyQt5.QtCore import*
 from PyQt5.QtGui import*
 from Layout import Ui_MainWindow
+import folium
 
 
 
@@ -10,7 +11,7 @@ from Layout import Ui_MainWindow
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-	s=r"C:\Users\HP\Desktop\test2.pcapng"
+	s=r"C:\Users\HP\Desktop\test.pcapng"
 
 	l=bl.infile(r""+s)
 
