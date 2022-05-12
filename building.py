@@ -66,13 +66,9 @@ def infile(s):
 
 
 	def url(ls):
-		comb_ls=[]
 		for i in range(0,len(ls)):
 			try:
-				for x in ls:
-					if x.des_ip not in comb_ls and x.src_ip!="":
-						x.dns_name=socket.gethostbyaddr(x.des_ip)[0]
-						comb_ls.append(x.des_ip)
+				ls[i].dns_name=socket.gethostbyaddr(ls[i].des_ip)[0]
 
 			except Exception as e:
 				pass
@@ -110,11 +106,11 @@ def infile(s):
 					if(i[3]!=None):
 						x.long=i[3]
 					else:
-						x.long="X"
+						x.long=0.0
 					if(i[4]!=None):
 						x.lat=i[4]
 					else:
-						x.lat="X"
+						x.lat=0.0
 
 
 

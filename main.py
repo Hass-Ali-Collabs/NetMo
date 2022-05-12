@@ -4,7 +4,7 @@ from PyQt5.QtCore import*
 from PyQt5.QtGui import*
 from Layout import Ui_MainWindow
 import folium
-
+import pandas as pd
 
 
 
@@ -15,6 +15,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 	l=bl.infile(r""+s)
 
+	m = folium.Map(zoom_start=3)
+	m.save('map.html')
+
+
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
@@ -24,6 +28,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.combo()
 		self.paKnumb()
 		self.web_numb()
+		self.plotting(self.maping(self.l))
 		#self.btn_import.clicked.connect(self.importer)
 		#self.fill(self.l)
 
@@ -37,7 +42,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.l=bl.infile(r""+path)
 		print(self.stringing(l))
 
+	def maping(self,pks):
+		lon=[]
+		lat=[]
+		name=[]
+		for x in pks:
+			if x.lat!=None:
+				lon.append(x.long)
+				lat.append(x.lat)
+				name.append(x.src_ip+"->"+x.des_ip)
 
+
+		data = pd.DataFrame({
+				'lon':lon,
+				'lat':lat,
+				'name':name
+							}, dtype=str)
+
+
+		return data
+
+	def plotting(self,ds):
+
+			for i in range(0,len(ds)):
+				folium.Marker(
+				location=[ds.iloc[i]['lat'], ds.iloc[i]['lon']],
+				popup=ds.iloc[i]['name'],
+				).add_to(self.m)
+			self.m.save('map.html')
 		
 
 
@@ -67,6 +99,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 	def web_numb(self):
 		self.web_num.setText(str(len(self.only_web(self.l))))
+
+
+
 
 
 
