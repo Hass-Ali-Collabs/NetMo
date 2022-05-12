@@ -1,6 +1,5 @@
 from python_ip_geolocation import AbstractIpGeolocation
 import pyshark
-import socket
 import time
 import dns.resolver,dns.reversename
 
@@ -58,8 +57,6 @@ def infile(s):
 				p = Packet(src_addr,dst_addr,"x","x","x","x",src_port,dst_port,pkt.transport_layer,"",pkt.pretty_print)
 				l.append(p)
 		except AttributeError as e:
-
-
 	        #ignore packets that aren't TCP/UDP or IPv4
 			pass
 
@@ -74,13 +71,6 @@ def infile(s):
 				print(x.dns_name)
 			except Exception as e:
 				pass
-		# for i in range(0,len(ls)):
-		# 	try:
-		# 		ls[i].dns_name=socket.gethostbyaddr(ls[i].des_ip)[0]
-
-		# 	except Exception as e:
-		# 		pass
-
 
 	def locations(pks):
 		comb_ls=[]

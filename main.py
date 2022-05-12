@@ -6,7 +6,6 @@ from Layout import Ui_MainWindow
 import folium
 import webbrowser
 import pandas as pd
-import os
 
 
 
