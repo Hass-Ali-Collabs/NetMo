@@ -4,16 +4,18 @@ from PyQt5.QtCore import*
 from PyQt5.QtGui import*
 from Layout import Ui_MainWindow
 import folium
+import webbrowser
 import pandas as pd
+import os
 
 
 
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-	s=r"C:\Users\HP\Desktop\test.pcapng"
+	# s=r"C:\Users\HP\Desktop\test5.pcapng"
 
-	l=bl.infile(r""+s)
+	# l=bl.infile(r""+s)
 
 	m = folium.Map(zoom_start=3)
 	m.save('map.html')
@@ -22,6 +24,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
+		self.btn_web_filter.clicked.connect(self.clicker)
+		# self.test(self.l)
+		# self.ip_numb()
+		# self.screanShow(self.l)
+		# self.combo()
+		# self.paKnumb()
+		# self.web_numb()
+		# self.plotting(self.maping(self.l))
+		self.btn_import.clicked.connect(self.importer)
+		#self.fill(self.l)
+
+
+
+
+
+	def clicker(self):
+
+		url = "map.html"
+
+		webbrowser.open(url,new=2)
+		
+
+
+		
+
+	def importer(self):
+		s=r"C:\Users\HP\Desktop\test2.pcapng"
+		self.l=bl.infile(r""+s)
 		self.test(self.l)
 		self.ip_numb()
 		self.screanShow(self.l)
@@ -29,18 +59,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.paKnumb()
 		self.web_numb()
 		self.plotting(self.maping(self.l))
-		#self.btn_import.clicked.connect(self.importer)
-		#self.fill(self.l)
-
-
-
-	def importer(self):
-		path=QFileDialog.getOpenFileName(self,'Open a file','','All Files(*.*)')
+		#path=QFileDialog.getOpenFileName(self,'Open a file','','All Files(*.*)')
 		#path=self.getfolderDir()
-
-
-		self.l=bl.infile(r""+path)
-		print(self.stringing(l))
 
 	def maping(self,pks):
 		lon=[]

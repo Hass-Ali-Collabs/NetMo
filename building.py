@@ -2,6 +2,7 @@ from python_ip_geolocation import AbstractIpGeolocation
 import pyshark
 import socket
 import time
+import dns.resolver,dns.reversename
 
 
 
@@ -65,13 +66,20 @@ def infile(s):
 	
 
 
-	def url(ls):
-		for i in range(0,len(ls)):
+	def url():
+		for x in l:
 			try:
-				ls[i].dns_name=socket.gethostbyaddr(ls[i].des_ip)[0]
-
+				z= dns.reversename.from_address(x.des_ip)
+				x.dns_name=str(dns.resolver.query(z,"PTR")[0])
+				print(x.dns_name)
 			except Exception as e:
 				pass
+		# for i in range(0,len(ls)):
+		# 	try:
+		# 		ls[i].dns_name=socket.gethostbyaddr(ls[i].des_ip)[0]
+
+		# 	except Exception as e:
+		# 		pass
 
 
 	def locations(pks):
@@ -80,7 +88,7 @@ def infile(s):
 		try:
 			for x in pks:
 				if x.des_ip not in comb_ls and x.src_ip!="":
-					time.sleep(0.4)
+					time.sleep(0.5)
 					z=AbstractIpGeolocation.look_up(x.des_ip)
 					print([x.des_ip,z.city,z.country,z.longitude,z.latitude])
 					comb_ls.append(x.des_ip)
@@ -116,7 +124,7 @@ def infile(s):
 
 	C.apply_on_packets(creat, timeout=100)
 	fillinglocs(l,locations(l))
-	url(l)
+	url()
 
 
 
