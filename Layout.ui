@@ -122,7 +122,7 @@ background-color: rgb(0, 85, 127);
 color: rgb(255, 255, 0);</string>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
@@ -138,18 +138,18 @@ color: rgb(255, 255, 0);</string>
               <number>12</number>
              </property>
              <item>
-              <widget class="QLabel" name="label_2">
+              <widget class="QPushButton" name="Resetbtn">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>70</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(0, 85, 127);</string>
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
                </property>
                <property name="text">
-                <string/>
+                <string>Reset</string>
                </property>
               </widget>
              </item>

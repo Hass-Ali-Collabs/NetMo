@@ -12,11 +12,11 @@ import pandas as pd
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-	# s=r"C:\Users\HP\Desktop\test5.pcapng"
+	# s=r"C:\Users\MSI-PC\Desktop\NetMo\test.pcapng"
 
 	# l=bl.infile(r""+s)
 
-	m = folium.Map(zoom_start=3)
+	m = folium.Map(zoom_start=5)
 	m.save('map.html')
 
 
@@ -31,8 +31,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# self.paKnumb()
 		# self.web_numb()
 		# self.plotting(self.maping(self.l))
+		self.comboBox.currentTextChanged.connect(lambda:self.selectCombo(self.l))
 		self.btn_import.clicked.connect(self.importer)
 		#self.fill(self.l)
+		self.Resetbtn.clicked.connect(lambda:self.screanShow(self.l))
+		
 
 
 
@@ -45,19 +48,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		webbrowser.open(url,new=2)
 		
 
-
-		
+	def open(self):
+		path = QFileDialog.getOpenFileName(self, 'Open a file', '','All Files (*.pcapng)')
+		return path[0]
 
 	def importer(self):
-		s=r"C:\Users\HP\Desktop\test2.pcapng"
-		self.l=bl.infile(r""+s)
+		#s=r"C:\Users\MSI-PC\Desktop\NetMo\test.pcapng"
+		s=QFileDialog.getOpenFileName(self, 'Open a file', '','All Files (*.pcapng)')
+		self.l=bl.infile(r""+s[0])
 		self.test(self.l)
 		self.ip_numb()
-		self.screanShow(self.l)
+		
 		self.combo()
 		self.paKnumb()
 		self.web_numb()
 		self.plotting(self.maping(self.l))
+		self.screanShow(self.l)
 		#path=QFileDialog.getOpenFileName(self,'Open a file','','All Files(*.*)')
 		#path=self.getfolderDir()
 
@@ -154,11 +160,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 	def IP_sorting(self, ip):
-		global l
+		# global l 
 		ipl=[]
-		for x in range(0,len(l)):
-			if l[x].src_ip == ip:
-				ipl.append(l[x])
+		for x in range(0,len(self.l)):
+			if self.l[x].src_ip == ip:
+				ipl.append(self.l[x])
 			else:
 				pass
 		return ipl
@@ -169,7 +175,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			s+=self.stringing(x)+" \n \n \n"
 		return s
 
-	
+	def selectCombo(self,pks):
+		s=""
+		for x in pks:
+			if x.src_ip == self.comboBox.currentText():
+				s+=self.stringing(x)+" \n \n \n"
+				self.display.setText(s)
+		# a = self.comboBox.currentText()
+		# self.printer(self.IP_sorting(a))
+
 
 	def only_web(self, paks):
 		webl=[]
