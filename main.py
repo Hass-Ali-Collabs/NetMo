@@ -16,14 +16,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 	# l=bl.infile(r""+s)
 
-	m = folium.Map(zoom_start=5)
-	m.save('map.html')
+	
 
 
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
+		
 		self.btn_web_filter.clicked.connect(self.clicker)
+		self.themes()
+		self.btn_browse.clicked.connect(lambda: self.st_browse_path(self.lineEdit, 'pcapng'))
+		self.pushButton.clicked.connect(lambda: self.st_browse_path(self.lineEdit_2, 'html'))
 		# self.test(self.l)
 		# self.ip_numb()
 		# self.screanShow(self.l)
@@ -35,35 +38,56 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.btn_import.clicked.connect(self.importer)
 		#self.fill(self.l)
 		self.Resetbtn.clicked.connect(lambda:self.screanShow(self.l))
-		
-
+	
+	def create_map_first(self):	
+		global m
+		m = folium.Map(location=[0, 0], zoom_start=3)
+		m.save(self.lineEdit_2.text())
 
 
 
 
 	def clicker(self):
 
-		url = "map.html"
+		url = self.lineEdit_2.text()
 
 		webbrowser.open(url,new=2)
 		
 
-	def open(self):
-		path = QFileDialog.getOpenFileName(self, 'Open a file', '','All Files (*.pcapng)')
-		return path[0]
+	# def open(self):
+	# 	path = QFileDialog.getOpenFileName(self, 'Open a file', '','All Files (*.pcapng)')
+	# 	return path[0]
+
+	def st_browse_path(self, lineEd, typ):
+		if typ == 'pcapng':	
+			s=QFileDialog.getOpenFileName(self, 'Open a file', '','All Files (*.{})'.format(typ))
+			lineEd.setText(s[0])
+		else:
+			s=QFileDialog.getSaveFileName(self, 'Save a file', '','All Files (*.{})'.format(typ))
+			lineEd.setText(s[0])
+
 
 	def importer(self):
 		#s=r"C:\Users\MSI-PC\Desktop\NetMo\test.pcapng"
-		s=QFileDialog.getOpenFileName(self, 'Open a file', '','All Files (*.pcapng)')
-		self.l=bl.infile(r""+s[0])
-		self.test(self.l)
-		self.ip_numb()
-		
-		self.combo()
-		self.paKnumb()
-		self.web_numb()
-		self.plotting(self.maping(self.l))
-		self.screanShow(self.l)
+		if self.lineEdit.text() != '' and self.lineEdit_2.text() != '':
+			self.l=bl.infile(r""+self.lineEdit.text(), self.progressBar)
+			self.test(self.l)
+			self.ip_numb()
+
+			self.combo()
+			self.paKnumb()
+			self.web_numb()
+			self.plotting(self.maping(self.l))
+			self.screanShow(self.l)
+			with open('map.html', 'r') as myfile:
+				f = myfile.read()
+			self.webEngineView.setHtml(f)
+			self.btn_web_filter.setEnabled(True)
+			self.Resetbtn.setEnabled(True)		
+		else:
+			QMessageBox.warning(self, 'Warning', 'Please fill all fields!')
+        # layout.addWidget(webView)
+
 		#path=QFileDialog.getOpenFileName(self,'Open a file','','All Files(*.*)')
 		#path=self.getfolderDir()
 
@@ -88,13 +112,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		return data
 
 	def plotting(self,ds):
-
-			for i in range(0,len(ds)):
-				folium.Marker(
-				location=[ds.iloc[i]['lat'], ds.iloc[i]['lon']],
-				popup=ds.iloc[i]['name'],
-				).add_to(self.m)
-			self.m.save('map.html')
+		self.create_map_first()
+		for i in range(0,len(ds)):
+			folium.Marker(
+			location=[ds.iloc[i]['lat'], ds.iloc[i]['lon']],
+			popup=ds.iloc[i]['name'],
+			).add_to(m)
+		m.save(self.lineEdit_2.text())
 		
 
 
@@ -189,9 +213,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		webl=[]
 		for x in range(0,len(paks)):
 			if paks[x].dns_name != "":
-			    webl.append(paks[x])
-	
+				webl.append(paks[x])
+
 		return webl
+
+	def themes(self):
+		with open('SpyBot.css') as myfile:
+			styles = myfile.read()
+		self.setStyleSheet(styles)
 
 		
 

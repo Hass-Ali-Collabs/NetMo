@@ -38,7 +38,7 @@ class Packet:
 IP_GEOLOCATION_API_KEY =  "e8f7044192ae4f8a8d69eb3372297c48";# Get your API Key from https://app.abstractapi.com/api/ip-geolocation/documentation
 AbstractIpGeolocation.configure(IP_GEOLOCATION_API_KEY)
 
-def infile(s):
+def infile(s,pb):
 	
 
 	C = pyshark.FileCapture(s)#if error /U008.. put path between "" and r befor it
@@ -64,17 +64,23 @@ def infile(s):
 
 
 	def url():
+		
 		for x in l:
 			try:
 				z= dns.reversename.from_address(x.des_ip)
 				x.dns_name=str(dns.resolver.query(z,"PTR")[0])
 				print(x.dns_name)
+				
 			except Exception as e:
 				pass
 
-	def locations(pks):
+	def locations(pks,pb):
 		comb_ls=[]
 		ls=[]
+		i=0
+		leng=len(pks)
+  		
+		Total_pb =100/leng
 		try:
 			for x in pks:
 				if x.des_ip not in comb_ls and x.src_ip!="":
@@ -83,6 +89,10 @@ def infile(s):
 					print([x.des_ip,z.city,z.country,z.longitude,z.latitude])
 					comb_ls.append(x.des_ip)
 					ls.append([x.des_ip,z.city,z.country,z.longitude,z.latitude])
+				
+				i+=Total_pb
+				pb.setValue(i)
+			pb.setValue(100)
 		except  Exception as e:
 			pass
 		return ls
@@ -91,7 +101,9 @@ def infile(s):
 
 	def fillinglocs(pks,loc):
 		for i in loc:
+			# if loc[3]!='' and loc[4] !='':
 			for x in pks:
+				
 				if i[0]==x.des_ip:
 					if(i[1]!=None):
 						x.des_city=i[1]
@@ -101,19 +113,19 @@ def infile(s):
 						x.des_country=i[2]
 					else:
 						x.des_country="X"
-					if(i[3]!=None):
+					if i[3]!=None and i[4]!=None:
 						x.long=i[3]
-					else:
-						x.long=0.0
-					if(i[4]!=None):
 						x.lat=i[4]
 					else:
-						x.lat=0.0
+						x.long=None
+						x.lat=None
+					
+						
 
 
 
 	C.apply_on_packets(creat, timeout=100)
-	fillinglocs(l,locations(l))
+	fillinglocs(l,locations(l,pb))
 	url()
 
 
