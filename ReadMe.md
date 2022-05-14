@@ -2,7 +2,7 @@
 
 
 
-##Introduction:
+## Introduction:
 
 
 In a time where one's life is seamlessly integrated with the internet,
@@ -50,7 +50,7 @@ A regular everyday user, someone who only wants to  monitor the internet activit
 
 
 
-##Example of Wireshark:
+## Example of Wireshark:
 
 ![](ReadMeStuff/ws.png)
 
@@ -70,6 +70,9 @@ NeMo takes a file that was captured by Wireshark, and turns it from a hard to un
 
 
 ## Live Capture:
+
+currently NetMo is not fully standalone, due to the fact that live capture capabilities have not been added, this was brought about by the incompatibility of pyshark( a module that offers the power of Wireshark in python) with windows(https://github.com/KimiNewt/pyshark/issues/218), in the future live capture will be added to a version of NetMo that is Linux based, and if pyshark live capture becomes compatible with windows in the future that feature will be added to the Windows version. 
+
 
 
 
