@@ -135,7 +135,7 @@ reset filtering done by the IP filter
 
 
 ## 7
-![](ReadMeStuff/usermap.png)
+![](ReadMeStuff/usemap.png)
 you can drag around the map, zoom in and zoom out
 
 
