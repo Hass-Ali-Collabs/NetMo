@@ -12,23 +12,24 @@ import pandas as pd
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-
-
 	
 #initializing the GUI
 
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
-		
 		self.btn_web_filter.clicked.connect(self.clicker)
 		self.themes()
 		self.btn_browse.clicked.connect(lambda: self.st_browse_path(self.lineEdit, 'pcapng'))
 		self.pushButton.clicked.connect(lambda: self.st_browse_path(self.lineEdit_2, 'html'))
 		self.comboBox.currentTextChanged.connect(lambda:self.selectCombo(self.l))
 		self.btn_import.clicked.connect(self.importer)
-		self.Resetbtn.clicked.connect(lambda:self.screanShow(self.l))
+		self.Resetbtn.clicked.connect(lambda:self.reset(self.l))
 
+
+	def reset(self,l):
+		self.screanShow(l)
+		self.btn_import.setEnabled(True)
 
 #create an html file to stor the map in 
 	def create_map_first(self):	
@@ -37,17 +38,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		m.save(self.lineEdit_2.text())
 
 
-
-
-#	opens the map in web browser
+#opens the map in web browser
 	def clicker(self):
-
 		url = self.lineEdit_2.text()
-
 		webbrowser.open(url,new=2)
 		
-
-
 
 #grabs the path of the chosen file 
 	def st_browse_path(self, lineEd, typ):
@@ -64,10 +59,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 #prompts the program to go threw the runing proccess 
 	def importer(self):
 		if self.lineEdit.text() != '' and self.lineEdit_2.text() != '':
+			self.btn_import.setEnabled(False)
 			self.l=bl.infile(r""+self.lineEdit.text(), self.progressBar)
 			self.test(self.l)
 			self.ip_numb()
-
 			self.combo()
 			self.paKnumb()
 			self.web_numb()
@@ -82,8 +77,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			QMessageBox.warning(self, 'Warning', 'Please fill all fields!')
 
 
-
-
 #collect the logitude and latitude in a form the plotting needs 
 	def maping(self,pks):
 		lon=[]
@@ -95,17 +88,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 				lat.append(x.lat)
 				name.append(x.src_ip+"->"+x.des_ip)
 
-
 		data = pd.DataFrame({
 				'lon':lon,
 				'lat':lat,
 				'name':name
 							}, dtype=str)
 
-
 		return data
-
-
 
 
 #plots the latitude and logitue on the map
@@ -119,8 +108,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		m.save(self.lineEdit_2.text())
 		
 
-
-
 #fills the drop down menue with distincet soruce ip adresses 
 	def combo(self):
 		comb_ls=[]
@@ -128,10 +115,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			if x.src_ip not in comb_ls and x.src_ip!="":
 				self.comboBox.addItem(str(x.src_ip))
 				comb_ls.append(x.src_ip)
-
-
-
-
 
 
 #prints the final result into the comand line for troubleshooting purpeces 
@@ -144,24 +127,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# 		print()
 
 
-
-
 #sets a string into the display aria 
 	def screanShow(self,ls):
 		self.display.setText(self.printer(ls))
 		
 
-
-
-
 #counts the number of packets with a DNS host name 
 	def web_numb(self):
 		self.web_num.setText(str(len(self.only_web(self.l))))
-
-
-
-
-
 
 
 #counts the number of destinct source IP addresses are in the capture
@@ -173,30 +146,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.ip_num.setText(str(len(comb_ls)))
 
 
-
-
 #counds how many packets are in the capture
 	def paKnumb(self):
-
 		self.pack_num.setText(str(len(self.l)))
-
-
-
-
-
 
 
 #trunes a packet into a string containing its most valiable information for the user 
 	def stringing(self,pkt):
-
 		if pkt.src_ip!="":
 			if pkt.dns_name!="":
 				return "Sender IP: "+pkt.src_ip+"\nRiciver IP: "+pkt.des_ip+"\nRiciver location: "+pkt.des_city+"-"+pkt.des_country+"\nURL: "+pkt.dns_name
 			else:
 				return "Sender IP: "+pkt.src_ip+"\nRiciver IP: "+pkt.des_ip+"\nRiciver location: "+pkt.des_city+"-"+pkt.des_country
-
-
-
 
 
 #turns a list of packets into a string
@@ -205,8 +166,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		for x in pks:
 			s+=self.stringing(x)+" \n \n \n"
 		return s
-
-
 
 
 #filters the packets being desplaed in the dispaly aria, acording to what has been selleckted in the dorpdown menue 
@@ -227,9 +186,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		for x in range(0,len(paks)):
 			if paks[x].dns_name != "":
 				webl.append(paks[x])
-
 		return webl
-
 
 
 #sets the style of the GUI
@@ -238,7 +195,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			styles = myfile.read()
 		self.setStyleSheet(styles)
 
-		
+	
 #main
 app = QApplication([])
 window = MainWindow()

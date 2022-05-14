@@ -10,8 +10,6 @@ class Packet:
 
 #A class in order to create a version of a packet that has what our program demands
 	def __init__( self, src_ip,des_ip,src_city,src_country,des_city,des_country,src_port,des_port,protocol, dns_name,prity):
-
-
 		self.src_ip=src_ip
 		self.des_ip=des_ip
 		self.src_city=src_city
@@ -26,6 +24,7 @@ class Packet:
 		self.long=""
 		self.lat=""
 
+
 	def __call__(self):
 		if self.src_ip!="":
 			if self.dns_name!="":
@@ -39,22 +38,16 @@ IP_GEOLOCATION_API_KEY =  "e8f7044192ae4f8a8d69eb3372297c48";# Get your API Key 
 AbstractIpGeolocation.configure(IP_GEOLOCATION_API_KEY)
 
 
-
-
 #a method that takes the drirectory of a capture file, and returns a list of objects or type packet according to the class above
 def infile(s,pb):
-	
     #gives the directory to pyshark and returns, and gets all the packets in the capture
 	C = pyshark.FileCapture(s)#if error /U008.. put path between "" and r befor it
-
 	l=[]
-
 
 
 #puts into the list L the packets from pyshark that the destination ip is a public IP address 
 	def creat(pkt):
 		try:
-
 			protocol =  pkt.transport_layer
 			src_addr = pkt.ip.src
 			src_port = pkt[pkt.transport_layer].srcport
@@ -71,13 +64,11 @@ def infile(s,pb):
 
 #gets the DNS hostname for every packet
 	def url():
-		
 		for x in l:
 			try:
 				z= dns.reversename.from_address(x.des_ip)
 				x.dns_name=str(dns.resolver.query(z,"PTR")[0])
-				print(x.dns_name)
-				
+				print(x.dns_name)		
 			except Exception as e:
 				pass
 
@@ -85,11 +76,11 @@ def infile(s,pb):
 
   #gets the geographic location of every public ip present in the list of packets 
 	def locations(pks,pb):
+		pb.setValue(0)
 		comb_ls=[]
 		ls=[]
 		i=0
 		leng=len(pks)
-  		
 		Total_pb =100/leng
 		try:
 			for x in pks:
@@ -99,7 +90,6 @@ def infile(s,pb):
 					print([x.des_ip,z.city,z.country,z.longitude,z.latitude])
 					comb_ls.append(x.des_ip)
 					ls.append([x.des_ip,z.city,z.country,z.longitude,z.latitude])
-				
 				i+=Total_pb
 				pb.setValue(i)
 			pb.setValue(100)
@@ -108,14 +98,11 @@ def infile(s,pb):
 		return ls
 
 
-
-
 #fills the packets with the geolocation where the packet has the name destenation adress as the one that was geolocated 
 	def fillinglocs(pks,loc):
 		for i in loc:
 			# if loc[3]!='' and loc[4] !='':
 			for x in pks:
-				
 				if i[0]==x.des_ip:
 					if(i[1]!=None):
 						x.des_city=i[1]
@@ -133,14 +120,10 @@ def infile(s,pb):
 						x.lat=None
 					
 						
-
-
 #puts the list L threw the above methods
 	C.apply_on_packets(creat, timeout=100)
 	fillinglocs(l,locations(l,pb))
 	url()
-
-
 
 
 #returns the list of Packets l
