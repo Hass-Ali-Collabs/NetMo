@@ -55,3 +55,25 @@ A regular everyday user, someone who only wants to  monitor the internet activit
 ![](ReadMeStuff/ws.png)
 
 
+
+
+
+## introduction to NetMo:
+NetMo(Network Monitor) is a program aiming at bringing the benefits of Wireshark to the regular user, with as little fuss as   possible. it aims to show the user what they need, in simple terms, and in ease of accessibility.
+
+It also builds over what Wireshark offers by having IP Geolocation capabilities, which tells the user the location of the destination of each packet, and plots it on a map for them. it also adds to the packet the DNS response of the destination IP address if one existed.
+
+NeMo takes a file that was captured by Wireshark, and turns it from a hard to understand complicated overload of information, to a simple useful  and easy to understand format, and adds on top of what has already been captured by Wireshark.
+
+![](ReadMeStuff/netmo.gif)
+
+
+
+## Live Capture:
+
+
+
+
+
+
+
