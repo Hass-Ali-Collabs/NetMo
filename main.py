@@ -79,7 +79,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.web_numb()
 			self.plotting(self.maping(self.l))
 			self.screanShow(self.l)
-			with open('map.html', 'r') as myfile:
+			with open(self.lineEdit_2.text(), 'r') as myfile:
 				f = myfile.read()
 			self.webEngineView.setHtml(f)
 			self.btn_web_filter.setEnabled(True)
