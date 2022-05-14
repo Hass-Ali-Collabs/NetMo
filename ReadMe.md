@@ -150,6 +150,102 @@ open the map on web browser
 
 
 
+## program structure
+ 
+
+ In this program a capture file from Wireshark, is taken and turned into a form usable by a reguler user
+
+
+
+## building.py:
+
+contains a class `Packet` which the program revolves around
+
+the program uses this class ass a storage and organization system, where every packet captured by pyshark is tunred into an instance of this class.
+
+
+that is done in the `infile` function that takes the directory of a capture file, and returns a list of objects of type `Packet`.
+
+
+ `infile` itself contains the following functions:
+
+
+ `creat` a method that will be applied on the pyshark captured list, which will in turn fill the list of packets that will be returned 
+
+ `url` gets the host name of every destantion IP address by reverse quary 
+
+ `location` gets the Geolocation of every public destenation IP adress present in the capture
+
+ `fillinglocs` inserts into the list the locations where the destentation IP is equal to the one geolocated
+
+
+
+
+
+## main:
+
+
+contains the GUI or the program, has a class `MainWindow` which inherets QMainWindow and Ui_MainWindow
+
+
+this class has a `__init__` function that ties the buttons to thier clicked functions 
+
+
+`create_map_first` function that creates the map the program will use to stor the data collected 
+
+
+`clicker` a funtion that is responsible for oppening the map HTML file in the browser
+
+
+`st_browse_path`  gets the path of the capture file the user chooses
+
+`importer` the button risponsible for the running of the proccess of analizing the capture
+
+`maping` puts the geolocation data in a way the map can proccess 
+
+`plotting` plots the locations on the maps with their corrisponding source IP and destination IP
+
+`combo` fills the drop down menue with distincet source IP addresses 
+
+`test` prints the returend list as a string in the comand line, for trouble shooting purpuses 
+
+
+`screanShow` sets the text of the "display" the a list in a form of a string
+
+`web_numb` counts the number of packets with a DNS hostname
+
+`ip_numb` counts the number of distinct source IP addresses 
+
+`paKnumb` counts the number of packets in the capture
+
+`stringing` turns a packet into a sting of its infomation
+
+`printer` turns a list of packets into a stiring using `stringing` on each packet
+
+`selectCombo` fileter whats on the display according to the source ip chosen by the user 
+
+`themes`  sets the style of the GUI
+
+
+
+
+
+
+
+
+
+
+## NOTE:
+
+
+
+ this program was developed under at the internet speeds of a low income neighborhood in a third world country(Lebanon) some issues might arise wit IP geolocation, since the website limits the number of requests per second,  you might need to tweak the "time.sleep" in line 102 in building.py
+
+
+
+
+
+
 
 
 
