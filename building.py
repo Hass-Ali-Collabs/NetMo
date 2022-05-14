@@ -8,7 +8,7 @@ import dns.resolver,dns.reversename
 class Packet:
 
 
-
+#A class in order to create a version of a packet that has what our program demands
 	def __init__( self, src_ip,des_ip,src_city,src_country,des_city,des_country,src_port,des_port,protocol, dns_name,prity):
 
 
@@ -34,17 +34,24 @@ class Packet:
 				return "Sender IP: "+self.src_ip+" Riciver IP: "+self.des_ip+" Sender location: "+self.city+"-"+self.src_country
 
 
-
+#configuring IP geolocation 
 IP_GEOLOCATION_API_KEY =  "e8f7044192ae4f8a8d69eb3372297c48";# Get your API Key from https://app.abstractapi.com/api/ip-geolocation/documentation
 AbstractIpGeolocation.configure(IP_GEOLOCATION_API_KEY)
 
+
+
+
+#a method that takes the drirectory of a capture file, and returns a list of objects or type packet according to the class above
 def infile(s,pb):
 	
-
+    #gives the directory to pyshark and returns, and gets all the packets in the capture
 	C = pyshark.FileCapture(s)#if error /U008.. put path between "" and r befor it
 
 	l=[]
 
+
+
+#puts into the list L the packets from pyshark that the destination ip is a public IP address 
 	def creat(pkt):
 		try:
 
@@ -62,7 +69,7 @@ def infile(s,pb):
 
 	
 
-
+#gets the DNS hostname for every packet
 	def url():
 		
 		for x in l:
@@ -74,6 +81,9 @@ def infile(s,pb):
 			except Exception as e:
 				pass
 
+
+
+  #gets the geographic location of every public ip present in the list of packets 
 	def locations(pks,pb):
 		comb_ls=[]
 		ls=[]
@@ -99,6 +109,8 @@ def infile(s,pb):
 
 
 
+
+#fills the packets with the geolocation where the packet has the name destenation adress as the one that was geolocated 
 	def fillinglocs(pks,loc):
 		for i in loc:
 			# if loc[3]!='' and loc[4] !='':
@@ -123,7 +135,7 @@ def infile(s,pb):
 						
 
 
-
+#puts the list L threw the above methods
 	C.apply_on_packets(creat, timeout=100)
 	fillinglocs(l,locations(l,pb))
 	url()
@@ -131,7 +143,7 @@ def infile(s,pb):
 
 
 
-
+#returns the list of Packets l
 	return l 
 
 
