@@ -37,9 +37,8 @@ IP_GEOLOCATION_API_KEY =  "e8f7044192ae4f8a8d69eb3372297c48";# Get your own API 
 AbstractIpGeolocation.configure(IP_GEOLOCATION_API_KEY)
 
 
+"""a method that takes the drirectory of a capture file and returns a list of objects or type packet according to the class above"""
 def infile(s,pb):
-		"""a method that takes the drirectory of a capture file
-	 		and returns a list of objects or type packet according to the class above"""
 	C = pyshark.FileCapture(s)
 	l=[]
 

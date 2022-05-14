@@ -14,9 +14,8 @@ import pandas as pd
 class MainWindow(QMainWindow, Ui_MainWindow):
 	
 
-
+	"""initializes the GUI"""
 	def __init__(self, parent=None):
-			"""initializes the GUI"""
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
 		self.btn_web_filter.clicked.connect(self.clicker)
@@ -141,9 +140,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.web_num.setText(str(len(self.only_web(self.l))))
 
 
-
+	"""
+	counts the number of destinct source IP addresses are in the capture
+	"""
 	def ip_numb(self):#combine with the function combo
-	"""counts the number of destinct source IP addresses are in the capture"""
+
 		comb_ls=[]
 		for x in self.l:
 			if x.src_ip not in comb_ls and x.src_ip!="":
