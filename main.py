@@ -18,7 +18,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 	def __init__(self, parent=None):
-			"""initializes the GUI"""
+		"""initializes the GUI"""
 		super(MainWindow, self).__init__(parent)
 		self.setupUi(self)
 		
@@ -177,7 +177,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 	def ip_numb(self):#combine with the function combo
-	"""counts the number of destinct source IP addresses are in the capture"""
+		"""counts the number of destinct source IP addresses are in the capture"""
 		comb_ls=[]
 		for x in self.l:
 			if x.src_ip not in comb_ls and x.src_ip!="":

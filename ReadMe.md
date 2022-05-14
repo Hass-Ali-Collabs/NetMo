@@ -71,7 +71,81 @@ NeMo takes a file that was captured by Wireshark, and turns it from a hard to un
 
 ## Live Capture:
 
-currently NetMo is not fully standalone, due to the fact that live capture capabilities have not been added, this was brought about by the incompatibility of pyshark( a module that offers the power of Wireshark in python) with windows(https://github.com/KimiNewt/pyshark/issues/218), in the future live capture will be added to a version of NetMo that is Linux based, and if pyshark live capture becomes compatible with windows in the future that feature will be added to the Windows version. 
+currently NetMo is not fully standalone, due to the fact that live capture capabilities have not been added, this was brought about by the incompatibility of pyshark( a module that offers the power of Wireshark in python) with windows, in the future live capture will be added to a version of NetMo that is Linux based, and if pyshark live capture becomes compatible with windows in the future that feature will be added to the Windows version. 
+
+
+
+
+
+
+## How to run the program?
+This program uses pyshark,Abstract-python-ip-geolocation,Dnspython,pyqt5,PyQtWebEngine,folium,pandas. To install the required dependencies, run:
+
+```
+$ pip install -r requirements.txt
+```
+
+Then you can run the code using:
+
+```
+python main.py
+```
+
+
+
+## user Manual:
+
+
+## 1
+![](ReadMeStuff/import.png)
+
+click the import button, choose the capture file you want to read and press open
+
+
+
+## 2
+![](ReadMeStuff/mappath.png)
+
+create a directory for the resulting map to be stored in
+
+
+## 3
+![](ReadMeStuff/run.png)
+press run
+
+
+
+## 4
+![](ReadMeStuff/progress.png)
+wait for the progress bar to finish
+
+
+
+## 5
+![](ReadMeStuff/ipfilter.png)
+
+use dropdown menu to filter with accordance to source IP
+
+
+
+## 6
+![](ReadMeStuff/reset.png)
+reset filtering done by the IP filter
+
+
+
+## 7
+![](ReadMeStuff/usermap.png)
+you can drag around the map, zoom in and zoom out
+
+
+
+## 8
+![](ReadMeStuff/mapopen.png)
+open the map on web browser
+
+
+
 
 
 

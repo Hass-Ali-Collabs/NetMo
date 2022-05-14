@@ -1,0 +1,7 @@
+pyshark
+dnspython
+pyqt5
+pyqtwebengine
+folium
+pandas
+Abstract-python-ip-geolocation
