@@ -12,12 +12,10 @@ import pandas as pd
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-	# s=r"C:\Users\MSI-PC\Desktop\NetMo\test.pcapng"
 
-	# l=bl.infile(r""+s)
 
 	
-
+#initializing the GUI
 
 	def __init__(self, parent=None):
 		super(MainWindow, self).__init__(parent)
@@ -27,18 +25,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.themes()
 		self.btn_browse.clicked.connect(lambda: self.st_browse_path(self.lineEdit, 'pcapng'))
 		self.pushButton.clicked.connect(lambda: self.st_browse_path(self.lineEdit_2, 'html'))
-		# self.test(self.l)
-		# self.ip_numb()
-		# self.screanShow(self.l)
-		# self.combo()
-		# self.paKnumb()
-		# self.web_numb()
-		# self.plotting(self.maping(self.l))
 		self.comboBox.currentTextChanged.connect(lambda:self.selectCombo(self.l))
 		self.btn_import.clicked.connect(self.importer)
-		#self.fill(self.l)
 		self.Resetbtn.clicked.connect(lambda:self.screanShow(self.l))
-	
+
+
+#create an html file to stor the map in 
 	def create_map_first(self):	
 		global m
 		m = folium.Map(location=[0, 0], zoom_start=3)
@@ -47,6 +39,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 
+#	opens the map in web browser
 	def clicker(self):
 
 		url = self.lineEdit_2.text()
@@ -54,10 +47,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		webbrowser.open(url,new=2)
 		
 
-	# def open(self):
-	# 	path = QFileDialog.getOpenFileName(self, 'Open a file', '','All Files (*.pcapng)')
-	# 	return path[0]
 
+
+#grabs the path of the chosen file 
 	def st_browse_path(self, lineEd, typ):
 		if typ == 'pcapng':	
 			s=QFileDialog.getOpenFileName(self, 'Open a file', '','All Files (*.{})'.format(typ))
@@ -67,8 +59,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			lineEd.setText(s[0])
 
 
+
+
+#prompts the program to go threw the runing proccess 
 	def importer(self):
-		#s=r"C:\Users\MSI-PC\Desktop\NetMo\test.pcapng"
 		if self.lineEdit.text() != '' and self.lineEdit_2.text() != '':
 			self.l=bl.infile(r""+self.lineEdit.text(), self.progressBar)
 			self.test(self.l)
@@ -86,11 +80,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.Resetbtn.setEnabled(True)		
 		else:
 			QMessageBox.warning(self, 'Warning', 'Please fill all fields!')
-        # layout.addWidget(webView)
 
-		#path=QFileDialog.getOpenFileName(self,'Open a file','','All Files(*.*)')
-		#path=self.getfolderDir()
 
+
+
+#collect the logitude and latitude in a form the plotting needs 
 	def maping(self,pks):
 		lon=[]
 		lat=[]
@@ -111,6 +105,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		return data
 
+
+
+
+#plots the latitude and logitue on the map
 	def plotting(self,ds):
 		self.create_map_first()
 		for i in range(0,len(ds)):
@@ -122,18 +120,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		
 
 
+
+#fills the drop down menue with distincet soruce ip adresses 
 	def combo(self):
 		comb_ls=[]
 		for x in self.l:
 			if x.src_ip not in comb_ls and x.src_ip!="":
 				self.comboBox.addItem(str(x.src_ip))
 				comb_ls.append(x.src_ip)
-		# return comb_ls
 
-	# def fill(self,ls):
-	# 	for x in ls:
-	# 		self.scrollArea.addItem(self.stringing(x))
-	
+
+
+
+
+
+#prints the final result into the comand line for troubleshooting purpeces 
 	def test(self,ls):
 		print(self.printer(self.l))
 		# for x in range(0,len(ls)):
@@ -142,10 +143,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		# 		print(self.stringing(ls[x]))
 		# 		print()
 
+
+
+
+#sets a string into the display aria 
 	def screanShow(self,ls):
 		self.display.setText(self.printer(ls))
 		
 
+
+
+
+#counts the number of packets with a DNS host name 
 	def web_numb(self):
 		self.web_num.setText(str(len(self.only_web(self.l))))
 
@@ -154,6 +163,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 
+
+#counts the number of destinct source IP addresses are in the capture
 	def ip_numb(self):#combine with the function combo
 		comb_ls=[]
 		for x in self.l:
@@ -162,6 +173,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.ip_num.setText(str(len(comb_ls)))
 
 
+
+
+#counds how many packets are in the capture
 	def paKnumb(self):
 
 		self.pack_num.setText(str(len(self.l)))
@@ -171,6 +185,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 
+
+#trunes a packet into a string containing its most valiable information for the user 
 	def stringing(self,pkt):
 
 		if pkt.src_ip!="":
@@ -183,32 +199,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 
-	def IP_sorting(self, ip):
-		# global l 
-		ipl=[]
-		for x in range(0,len(self.l)):
-			if self.l[x].src_ip == ip:
-				ipl.append(self.l[x])
-			else:
-				pass
-		return ipl
-
+#turns a list of packets into a string
 	def printer(self,pks):
 		s=""
 		for x in pks:
 			s+=self.stringing(x)+" \n \n \n"
 		return s
 
+
+
+
+#filters the packets being desplaed in the dispaly aria, acording to what has been selleckted in the dorpdown menue 
 	def selectCombo(self,pks):
 		s=""
 		for x in pks:
 			if x.src_ip == self.comboBox.currentText():
 				s+=self.stringing(x)+" \n \n \n"
 				self.display.setText(s)
-		# a = self.comboBox.currentText()
-		# self.printer(self.IP_sorting(a))
 
 
+
+
+
+#takes a list of packets, and reterns a list with only packets that have a DNS host name
 	def only_web(self, paks):
 		webl=[]
 		for x in range(0,len(paks)):
@@ -217,13 +230,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		return webl
 
+
+
+#sets the style of the GUI
 	def themes(self):
 		with open('SpyBot.css') as myfile:
 			styles = myfile.read()
 		self.setStyleSheet(styles)
 
 		
-
+#main
 app = QApplication([])
 window = MainWindow()
 window.show()
